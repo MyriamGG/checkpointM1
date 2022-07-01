@@ -2,14 +2,35 @@ const { Queue, Node, Stack, LinkedList, BinarySearchTree } = require("./DS.js");
 
 // ---- Linked List ----
 //EJERCICIO 1
-// Agregar el método orderList al prototipo de LinkedList. Este método deberá ordenar los elementos de nuestra lista enlazada de menor a mayor.
+// Agregar el método orderList al prototipo de LinkedList. Este método deberá ordenar los elementos de nuestra 
+//lista enlazada de menor a mayor.
 // Ejemplo:
 //     Suponiendo que la lista actual es: Head --> [4] --> [5] --> [1]
 //     lista.orderList();
 //     Ahora la lista quedaría: Head --> [1] --> [4] --> [5]
 // ACLARACIÓN: Se debe ordenar la lista original y no una nueva.
 LinkedList.prototype.orderList = function () {
+
   // Tu código aca:
+  let current;
+  let current2;
+
+  if (this.head !== null) {
+
+    current = this.head;
+    while (current.next){
+      current2 = current.next;
+      while(current2){
+        if (current.value > current2.value){
+          const aux = current.value;
+          current.value = current2.value;
+          current2.value = aux;
+        }
+        current2 = current2.next;
+      } 
+      current = current.next;
+    }
+  }
 };
 
 // EJERCICIO 2
@@ -18,8 +39,29 @@ LinkedList.prototype.orderList = function () {
 // let myList = Head --> [1] --> [2] --> [3] --> [4]
 // myList.reverseLinkedList()
 // myList = Head --> [4] --> [3] --> [2] --> [1]
+
 LinkedList.prototype.reverseLinkedList = function () {
   // Tu código aca:
+  let arr = [];
+  let current;
+  let i;
+
+  if (this.head !== null) {
+
+    current = this.head;
+    while (current){
+      arr.push(current.value);
+      current = current.next;
+    }
+    arr = arr.reverse();
+    current = this.head;
+    i = 0;
+    while (current){
+        current.value = arr[i];
+        current = current.next;
+        i++;
+      }
+  }
 };
 
 // EJERCICIO 3
@@ -32,6 +74,47 @@ LinkedList.prototype.reverseLinkedList = function () {
 //    Head --> [2] --> [6] --> [8] --> [15] --> [22] --> [4] --> null
 function joinLinkedList(linkedListOne, linkedListTwo) {
   // Tu código aca:
+
+  let nuevalista = new LinkedList();
+  let nuevonodo = new Node();
+  let current;
+  let current2;
+  let current3;
+
+  if (!this.head){
+    current = linkedListOne.head;
+    current2 = linkedListTwo.head;
+    while (current && current2){
+      current3 = nuevalista.head;
+      if (current3 === null){
+        current3 = nuevonodo;
+        current3.value = current.value;
+        current = current.next;
+        current3 = current3.next;
+
+        current3 = nuevonodo;
+        current3.value = current2.value;
+        current2 = current2.next;
+        current3 = current3.next;
+      }
+      if (current && !current2){
+        if (current3 === null){
+          current3 = nuevonodo;
+          current3.value = current.value;
+          current = current.next;
+          current3 = current3.next;
+        } else {
+          if (current3 === null){
+            current3 = nuevonodo;
+            current3.value = current2.value;
+            current2 = current2.next;
+            current3 = current3.next;
+          }
+        }
+      }
+    }
+  }
+  return current3;
 }
 
 // ---- Arboles Binarios ----
@@ -46,7 +129,12 @@ function joinLinkedList(linkedListOne, linkedListTwo) {
 //      \
 //       5
 //  Debería retornarnos 2
-BinarySearchTree.prototype.searchMin = function () {};
+BinarySearchTree.prototype.searchMin = function (){
+  
+  if (this.left === null) return this.value;
+
+   return this.left.searchMin();
+};
 
 // EJERCICIO 5
 // Implementar la función createBST para que a partir de un array recibido como parametro
@@ -62,6 +150,21 @@ BinarySearchTree.prototype.searchMin = function () {};
 //       5
 function createBST(array) {
   // Tu código aca:
+
+  if (array[0] > this.value){ // va a derecha
+    if (this.right !== null){ // pregunta si el nodo tiene algo
+       this.right.insert(array);
+    } else { // la rama esta vacia
+       this.right = new BinarySearchTree(array[i]); //creo un nuevo arbol y lo pongo en la derecha
+    }
+   }
+   if (value < this.value){ // va a izquierda
+     if (this.left !== null){
+      this.left.insert(value)
+     } else {
+       this.left = new BinarySearchTree(value); //creo un nuevo arbol y lo pongo en la izquierda
+     }
+   }
 }
 
 // ----- Closures -----
@@ -72,6 +175,12 @@ function createBST(array) {
 // La función passport retorna una función isAllowed, la cual recibirá un arreglo de personas que quieren ingresar al país, y retornará un nuevo arreglo con los admitidos (aquellos que cumplan con la edad requerida).
 function passport(minAge, country) {
   // Tu código aca:
+  return isAllowed()
+}
+function  isAllowed(personas){
+  let admit = [];
+
+  return admit
 }
 
 // ---- Recursión ----
@@ -79,9 +188,27 @@ function passport(minAge, country) {
 // La función countDeep recibe por parámetro un arreglo que contiene números y/o arreglos (estos últimos contienen, a su vez, más números y/o arreglos), y retorna la cantidad de arreglos que hay en total, incluyendo al padre.
 // Ejemplo:
 // countDeep( [ 1, 2, 3, [ 4, [ 5, 6 ] ], 7, [ 8 ], 9] ) ----> Debería retornar 4
+
 function countDeep(arr) {
   // Tu código aca:
+  let flag = false;
+  let i;
+  let array = [];
+
+  for (i = 0; i < arr.length; i++){
+      if (typeof arr[i] === "number") {
+          flag = false;
+      } else {
+          array = arr[i];
+          console.log(array);
+          flag = true;
+      }
+  }
+  if (flag) return 1 + countDeep(array);
+    else return 1;
+
 }
+
 
 // EJERCICIO 8
 // Implementar la función isAncestor: debe determinar si dado dos nombres de personas las mismas
@@ -165,6 +292,28 @@ function cardGame(playerOneCards, playerTwoCards) {
 // ]
 function specialSort(array, swapFunction) {
   // Tu código aca:
+
+  if (swapFunction() === -1){
+    let aux; //Declaramos variables auxilires.
+    let aux1;
+    let flag = false;//
+    for (let i = 0; i < array.length; i++) { //recorremos array.
+        aux = array[i - 1];// resta una posición.
+        aux1 = array[i] // se va a la posición inicial.
+ 
+        if (aux1 < aux ) { //si mi aux1 es menor a aux, flag pasa a true;
+          flag = true;
+          array[i - 1] = aux1;//pasa a ser aux1. (cambia posición)
+          array[i] = aux;// array[i] pasa a se aux.
+        }
+    }
+    if (flag) { // si mi condición se cumple, mi bandera cambia a true.
+        return specialSort(array); //llamo a recursón.
+      } else {
+  
+         return array; //devolvemos el array ordenado.
+        }
+  }
 }
 
 module.exports = {
