@@ -76,47 +76,21 @@ function joinLinkedList(linkedListOne, linkedListTwo) {
   // Tu código aca:
 
   let nuevalista = new LinkedList();
-  let nuevonodo = new Node();
-  let current;
-  let current2;
-  let current3;
+  let current1 = linkedListOne.head;
+  let current2 = linkedListTwo.head;
 
-  if (!this.head){
-    current = linkedListOne.head;
-    current2 = linkedListTwo.head;
-    while (current && current2){
-      current3 = nuevalista.head;
-      if (current3 === null){
-        current3 = nuevonodo;
-        current3.value = current.value;
-        current = current.next;
-        current3 = current3.next;
-
-        current3 = nuevonodo;
-        current3.value = current2.value;
+  while (current1 || current2){
+    if (current1){
+        nuevalista.add(current1.value);
+        current1 = current1.next;
+      }
+    if (current2){
+        nuevalista.add(current2.value);
         current2 = current2.next;
-        current3 = current3.next;
-      }
-      if (current && !current2){
-        if (current3 === null){
-          current3 = nuevonodo;
-          current3.value = current.value;
-          current = current.next;
-          current3 = current3.next;
-        } else {
-          if (current3 === null){
-            current3 = nuevonodo;
-            current3.value = current2.value;
-            current2 = current2.next;
-            current3 = current3.next;
-          }
-        }
-      }
     }
   }
-  return current3;
+    return nuevalista;
 }
-
 // ---- Arboles Binarios ----
 // EJERCICIO 4
 // Implementar la función searchMin que busque en nuestro arbol binario, el valor minimo.
@@ -151,20 +125,11 @@ BinarySearchTree.prototype.searchMin = function (){
 function createBST(array) {
   // Tu código aca:
 
-  if (array[0] > this.value){ // va a derecha
-    if (this.right !== null){ // pregunta si el nodo tiene algo
-       this.right.insert(array);
-    } else { // la rama esta vacia
-       this.right = new BinarySearchTree(array[i]); //creo un nuevo arbol y lo pongo en la derecha
-    }
-   }
-   if (value < this.value){ // va a izquierda
-     if (this.left !== null){
-      this.left.insert(value)
-     } else {
-       this.left = new BinarySearchTree(value); //creo un nuevo arbol y lo pongo en la izquierda
-     }
-   }
+  let nuevoarbol = new BinarySearchTree(array[0]);
+  for (let i = 1; i < array.length; i++){
+    nuevoarbol.insert(array[i]);
+  }
+  return nuevoarbol;
 }
 
 // ----- Closures -----
@@ -200,11 +165,10 @@ function countDeep(arr) {
           flag = false;
       } else {
           array = arr[i];
-          console.log(array);
           flag = true;
       }
   }
-  if (flag) return 1 + countDeep(array);
+  if (flag) return countDeep(array) + 1;
     else return 1;
 
 }
@@ -271,6 +235,27 @@ var isAncestor = function (genealogyTree, ancestor, descendant) {
 // finalizar el juego.
 function cardGame(playerOneCards, playerTwoCards) {
   // Tu código aca:
+
+    let jugador1;
+    let jugador2;
+
+    let castillo1 = 100;
+    let castillo2 = 100;
+
+    while (playerOneCards.length > 0){
+      jugador1 = playerOneCards.shift();
+      jugador2 = playerTwoCards.shift();
+
+      if (jugador1.attack > jugador2.defense) 
+          castillo1 = castillo1 - (jugador1.attack - jugador2.defense);
+      if (jugador2.attack > jugador1.defense)
+         castillo2 = castillo2 - (jugador2.attack - jugador1.defense);
+      if (castillo1 <= 0) return 'PLAYER TWO';
+       else if (castillo2 <= 0) return 'PLAYER ONE';
+    }
+    if (castillo1 === castillo2) return 'TIE';
+     else if (castillo1 > castillo2) return 'PLAYER ONE';
+      else return 'PLAYER TWO';
 }
 
 // ---- Algoritmos ----
