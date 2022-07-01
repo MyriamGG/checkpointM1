@@ -138,14 +138,29 @@ function createBST(array) {
 //  - Una edad mínima para que las personas puedan ingresar a un país
 //  - El país en cuestión
 // La función passport retorna una función isAllowed, la cual recibirá un arreglo de personas que quieren ingresar al país, y retornará un nuevo arreglo con los admitidos (aquellos que cumplan con la edad requerida).
+//let people = [
+//  { name: "Cristian", age: 19, allowed: ["BRA"] },
+//  { name: "Ana", age: 18, allowed: ["ALE"] },
+//  { name: "Nahuel", age: 23, allowed: ["ALE"] },
+//  { name: "Cristian", age: 15, allowed: ["ALE"] },
+//];
+
 function passport(minAge, country) {
   // Tu código aca:
-  return isAllowed()
+  return  function () {isAllowed();}
 }
-function  isAllowed(personas){
-  let admit = [];
 
-  return admit
+function  isAllowed(people){
+  let admit = [];
+  for (let i = 0; i <= people.length; i++){
+
+    if (people[i].allowed === country && people[i].age === minAge){
+          admit.push(people[i].name);
+      }
+
+  }
+
+    return admit
 }
 
 // ---- Recursión ----
@@ -195,6 +210,18 @@ function countDeep(arr) {
 //  [Observar los tests para otros casos]
 var isAncestor = function (genealogyTree, ancestor, descendant) {
   // Tu código aca:
+  for (const property in genealogyTree) {
+    if (property === ancestor) {
+      if (genealogyTree.property.length === 0) return "no tiene descendientes";
+       else {
+          for (let i = 0; i <= genealogyTree.property.length; i++){
+            if (genealogyTree.property[i] === descendant){
+              return true;
+            } else { return false;}
+          }
+       }
+    }
+  }
 };
 
 // ---- Queue ----
@@ -243,19 +270,19 @@ function cardGame(playerOneCards, playerTwoCards) {
     let castillo2 = 100;
 
     while (playerOneCards.length > 0){
-      jugador1 = playerOneCards.shift();
-      jugador2 = playerTwoCards.shift();
+      jugador1 = playerOneCards.dequeue();
+      jugador2 = playerTwoCards.dequeue();
 
       if (jugador1.attack > jugador2.defense) 
           castillo1 = castillo1 - (jugador1.attack - jugador2.defense);
       if (jugador2.attack > jugador1.defense)
          castillo2 = castillo2 - (jugador2.attack - jugador1.defense);
-      if (castillo1 <= 0) return 'PLAYER TWO';
-       else if (castillo2 <= 0) return 'PLAYER ONE';
+      if (castillo1 <= 0) return "PLAYER TWO";
+       else if (castillo2 <= 0) return "PLAYER ONE";
     }
     if (castillo1 === castillo2) return 'TIE';
-     else if (castillo1 > castillo2) return 'PLAYER ONE';
-      else return 'PLAYER TWO';
+     else if (castillo1 > castillo2) return "PLAYER ONE";
+      else return "PLAYER TWO";
 }
 
 // ---- Algoritmos ----
@@ -277,27 +304,24 @@ function cardGame(playerOneCards, playerTwoCards) {
 // ]
 function specialSort(array, swapFunction) {
   // Tu código aca:
-
-  if (swapFunction() === -1){
-    let aux; //Declaramos variables auxilires.
-    let aux1;
-    let flag = false;//
+  let band = 1;
+  while (band === 1){
+    band = 0;
+    if (swapFunction() === -1){
+      let aux; //Declaramos variables auxilires.
+      let aux1;
+    
     for (let i = 0; i < array.length; i++) { //recorremos array.
-        aux = array[i - 1];// resta una posición.
+        aux = array[i-1];// resta una posición.
         aux1 = array[i] // se va a la posición inicial.
  
-        if (aux1 < aux ) { //si mi aux1 es menor a aux, flag pasa a true;
-          flag = true;
+        if (aux1.age < aux.age ) { //si mi aux1 es menor a aux, flag pasa a true;
           array[i - 1] = aux1;//pasa a ser aux1. (cambia posición)
           array[i] = aux;// array[i] pasa a se aux.
         }
+        band = 1;
+      }
     }
-    if (flag) { // si mi condición se cumple, mi bandera cambia a true.
-        return specialSort(array); //llamo a recursón.
-      } else {
-  
-         return array; //devolvemos el array ordenado.
-        }
   }
 }
 
